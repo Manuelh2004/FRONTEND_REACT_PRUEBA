@@ -6,7 +6,6 @@ const TablaAdopcion = ({
   paginaActual,
   registrosPorPagina,
   volverAPendiente,  // Asegúrate de pasar esta función como prop
-
 }) => {
   return (
     <div className="overflow-x-auto bg-white shadow-md rounded-lg">
@@ -38,9 +37,15 @@ const TablaAdopcion = ({
                     {obtenerEstadoTexto(adopcion.adop_estado)}
                   </span>
                 </td>
-                <td className="px-6 py-4 text-center">{adopcion.mascota.masc_nombre}</td>
-                <td className="px-6 py-4 text-center">{adopcion.mascota.tipo_mascota.tipma_nombre}</td>
-                <td className="px-6 py-4 text-center">{adopcion.usuario.usr_nombre} {adopcion.usuario.usr_apellido}</td>
+                <td className="px-6 py-4 text-center">
+                  {/* Verificación para evitar errores si mascota es undefined */}
+                  {adopcion.mascota && adopcion.mascota.masc_nombre ? adopcion.mascota.masc_nombre : 'Sin nombre'}
+                </td>
+                <td className="px-6 py-4 text-center">
+                  {/* Verificación de tipo de mascota */}
+                  {adopcion.mascota && adopcion.mascota.tipo_mascota ? adopcion.mascota.tipo_mascota.tipma_nombre : 'Desconocido'}
+                </td>
+                <td className="px-6 py-4 text-center">{adopcion.usuario ? `${adopcion.usuario.usr_nombre} ${adopcion.usuario.usr_apellido}` : 'Desconocido'}</td>
                 <td className="px-6 py-4 text-center flex justify-center space-x-4">
                   <button
                     className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-900 transition duration-300 cursor-pointer"
@@ -88,7 +93,7 @@ const TablaAdopcion = ({
                     >
                       <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
                         <path strokeLinecap="round" strokeLinejoin="round" d="M16.023 9.348h4.992v-.001M2.985 19.644v-4.992m0 0h4.992m-4.993 0 3.181 3.183a8.25 8.25 0 0 0 13.803-3.7M4.031 9.865a8.25 8.25 0 0 1 13.803-3.7l3.181 3.182m0-4.991v4.99" />
-                      </svg>                                        
+                      </svg>                                      
                     </button>
                   )}
                 </td>

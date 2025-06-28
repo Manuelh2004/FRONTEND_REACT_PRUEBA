@@ -1,5 +1,5 @@
 // AdopcionesAdmin.jsx
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import { obtenerAdopcionesPorEstado, cambiarEstadoAdopcion, buscarMascotasPorNombre} from '../../../../services/adopcion/adopcionAdmApi';
 import FiltroEstado from './FiltroEstado';
 import ModalAdopcion from './ModalAdopcion';
@@ -19,10 +19,11 @@ const AdopcionesAdmin = () => {
   const token = localStorage.getItem('token');
   
   useEffect(() => {
-    const fetchAdopciones = async () => {
+    const obtenerAdopciones = async () => {
       setLoading(true);
       try {
         const data = await obtenerAdopcionesPorEstado(filtroEstado, token);
+
         setAdopciones(data);
         setLoading(false);
       } catch (err) {
@@ -30,8 +31,29 @@ const AdopcionesAdmin = () => {
         setLoading(false);
       }
     };
-    fetchAdopciones();
+    obtenerAdopciones();
   }, [filtroEstado, token]);
+
+// ***********
+  useEffect(() => {
+    const obtnerMascotasPorNombre = async () => {
+      if (searchTerm){
+        try {
+          const mascotasPorNombre = await buscarMascotasPorNombre(token, searchTerm);
+
+          setAdopciones(mascotasPorNombre.data);
+        } catch (err) {
+            console.error("Error al filtrar mascotas por estado:", err);
+        }
+      }else{
+          const mascotasFiltradas = await obtenerAdopcionesPorEstado(filtroEstado, token);
+          setAdopciones(mascotasFiltradas);
+      }    
+    };
+
+  obtnerMascotasPorNombre();
+  }, [searchTerm, filtroEstado]);
+// ***********
 
    const volverAPendiente = async (adopId) => {
     try {
@@ -106,7 +128,6 @@ const AdopcionesAdmin = () => {
   };  
 
   if (loading) return <p className="text-center text-lg font-bold">Cargando...</p>;
-
   if (error) return <p className="text-center text-lg font-bold text-red-500">Error: {error}</p>;
 
   return (

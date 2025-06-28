@@ -152,7 +152,6 @@ const EventosAdmin = () => {
       }
 
       setEventoSeleccionado(eventoDetails);
-      console.log('Detalles del evento:', eventoDetails); 
     } catch (error) {
       console.error('Error al obtener los detalles del evento:', error);
       alert('Hubo un error al cargar los detalles del evento.');

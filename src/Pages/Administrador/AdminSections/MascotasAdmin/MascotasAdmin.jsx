@@ -110,8 +110,6 @@ const MascotasAdmin = () => {
     return;
   }
 
-  console.log('Token:', token); // Registra el token en la consola para asegurarte de que se está obteniendo correctamente.
-
   try {
     const response = await fetch('http://localhost:8080/admin/api/mascota/exportar-excel', {
       method: 'GET',
@@ -197,7 +195,6 @@ const mascotasPaginados = Array.isArray(mascotas) && mascotas ? mascotas.slice(
     const response = await actualizarMascota(token, editandoId, formDataToSend); 
 
     if (response && response.masc_id) {
-      console.log("Mascota actualizada con éxito:", response);
       setFormData({
         masc_nombre: '',
         masc_fecha_nacimiento: '',
@@ -283,7 +280,6 @@ const mascotasPaginados = Array.isArray(mascotas) && mascotas ? mascotas.slice(
       try {
         const response = await registrarMascota(token, formDataToSend); 
         if (response.code === 201) {
-          console.log("Mascota registrada con éxito:", response.data);
           setFormData({
             masc_nombre: '',
             masc_fecha_nacimiento: '',
@@ -387,7 +383,6 @@ const handleCancelar = () => {
       }
 
       setMascotaSeleccionada(mascotaDetails);
-      console.log('Detalles de la mascota:', mascotaDetails); 
     } catch (error) {
       alert('Hubo un error al cargar los detalles del evento.');
     }
